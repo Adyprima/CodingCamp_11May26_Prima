@@ -3,6 +3,42 @@
    WCAG AA contrast placeholders: min 4.5:1 for normal text
    ============================================================ */
 
+/* ---- CSS Custom Properties (Light mode defaults) ---- */
+:root {
+  --color-bg:           #f5f5f5;
+  --color-surface:      #ffffff;
+  --color-border:       #d0d0d0;
+  --color-border-light: #e0e0e0;
+  --color-border-row:   #e8e8e8;
+  --color-text:         #1a1a2e;
+  --color-text-muted:   #555555;
+  --color-accent:       #0057b8;
+  --color-accent-hover: #004494;
+  --color-green:        #0a6640;
+  --color-red:          #c0392b;
+  --color-red-hover:    #96281b;
+  --color-row-alt:      #fafafa;
+  --color-header-bg:    #ffffff;
+}
+
+/* ---- Dark mode overrides ---- */
+body.dark {
+  --color-bg:           #0f0f1a;
+  --color-surface:      #1e1e2e;
+  --color-border:       #3a3a5c;
+  --color-border-light: #2e2e48;
+  --color-border-row:   #2a2a42;
+  --color-text:         #e2e2f0;
+  --color-text-muted:   #9090b0;
+  --color-accent:       #4d9fff;
+  --color-accent-hover: #2e87f5;
+  --color-green:        #3ecf8e;
+  --color-red:          #e05c4b;
+  --color-red-hover:    #c0392b;
+  --color-row-alt:      #252538;
+  --color-header-bg:    #1e1e2e;
+}
+
 /* ---- Reset & Base ---- */
 *,
 *::before,
@@ -16,10 +52,10 @@ body {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 1rem;
   line-height: 1.5;
-  /* #1a1a2e on #f5f5f5 — contrast ratio ≈ 14:1 (WCAG AA ✓) */
-  color: #1a1a2e;
-  background-color: #f5f5f5;
+  color: var(--color-text);
+  background-color: var(--color-bg);
   min-height: 100vh;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 /* ---- Layout ---- */
@@ -31,8 +67,8 @@ main {
 }
 
 header {
-  background-color: #ffffff;
-  border-bottom: 2px solid #d0d0d0;
+  background-color: var(--color-header-bg);
+  border-bottom: 2px solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -40,20 +76,20 @@ header {
   gap: 0.75rem;
   max-width: 100%;
   padding: 1rem 2rem;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
 h1 {
   font-size: 1.5rem;
   font-weight: 700;
-  /* #1a1a2e on #ffffff — contrast ratio ≈ 14:1 (WCAG AA ✓) */
-  color: #1a1a2e;
+  color: var(--color-text);
 }
 
 h2 {
   font-size: 1.125rem;
   font-weight: 600;
   margin-bottom: 0.75rem;
-  color: #1a1a2e;
+  color: var(--color-text);
 }
 
 main {
@@ -69,8 +105,7 @@ main {
 
 .balance-label {
   font-size: 0.8125rem;
-  /* #555555 on #ffffff — contrast ratio ≈ 7.4:1 (WCAG AA ✓) */
-  color: #555555;
+  color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -78,18 +113,18 @@ main {
 #balance-display {
   font-size: 1.75rem;
   font-weight: 700;
-  /* #0a6640 on #ffffff — contrast ratio ≈ 7.2:1 (WCAG AA ✓) */
-  color: #0a6640;
+  color: var(--color-green);
 }
 
 /* ---- Sections (visual separation) ---- */
 #form-section,
 #list-section,
 #chart-section {
-  background-color: #ffffff;
-  border: 1px solid #d0d0d0;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 1.25rem 1.5rem;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
 /* ---- Form ---- */
@@ -103,7 +138,7 @@ main {
 label {
   font-size: 0.9375rem;
   font-weight: 500;
-  color: #1a1a2e;
+  color: var(--color-text);
 }
 
 input[type="text"],
@@ -112,19 +147,19 @@ select {
   width: 100%;
   padding: 0.5rem 0.75rem;
   font-size: 1rem;
-  border: 1px solid #9a9a9a;
+  border: 1px solid var(--color-border);
   border-radius: 4px;
-  background-color: #ffffff;
-  color: #1a1a2e;
-  transition: border-color 0.15s ease;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  transition: border-color 0.15s ease, background-color 0.25s ease, color 0.25s ease;
 }
 
 input[type="text"]:focus,
 input[type="number"]:focus,
 select:focus {
-  outline: 2px solid #0057b8;
+  outline: 2px solid var(--color-accent);
   outline-offset: 1px;
-  border-color: #0057b8;
+  border-color: var(--color-accent);
 }
 
 input[aria-invalid="true"],
