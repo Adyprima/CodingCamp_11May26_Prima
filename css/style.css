@@ -1,0 +1,294 @@
+/* ============================================================
+   Expense & Budget Visualizer — Stylesheet
+   WCAG AA contrast placeholders: min 4.5:1 for normal text
+   ============================================================ */
+
+/* ---- Reset & Base ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  /* #1a1a2e on #f5f5f5 — contrast ratio ≈ 14:1 (WCAG AA ✓) */
+  color: #1a1a2e;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* ---- Layout ---- */
+header,
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+}
+
+header {
+  background-color: #ffffff;
+  border-bottom: 2px solid #d0d0d0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  max-width: 100%;
+  padding: 1rem 2rem;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  /* #1a1a2e on #ffffff — contrast ratio ≈ 14:1 (WCAG AA ✓) */
+  color: #1a1a2e;
+}
+
+h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #1a1a2e;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ---- Balance Section ---- */
+#balance-section {
+  text-align: right;
+}
+
+.balance-label {
+  font-size: 0.8125rem;
+  /* #555555 on #ffffff — contrast ratio ≈ 7.4:1 (WCAG AA ✓) */
+  color: #555555;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+#balance-display {
+  font-size: 1.75rem;
+  font-weight: 700;
+  /* #0a6640 on #ffffff — contrast ratio ≈ 7.2:1 (WCAG AA ✓) */
+  color: #0a6640;
+}
+
+/* ---- Sections (visual separation) ---- */
+#form-section,
+#list-section,
+#chart-section {
+  background-color: #ffffff;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+}
+
+/* ---- Form ---- */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+label {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #1a1a2e;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #9a9a9a;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #1a1a2e;
+  transition: border-color 0.15s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  outline: 2px solid #0057b8;
+  outline-offset: 1px;
+  border-color: #0057b8;
+}
+
+input[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border-color: #c0392b;
+}
+
+/* ---- Error Messages ---- */
+.error-msg {
+  font-size: 0.8125rem;
+  /* #c0392b on #ffffff — contrast ratio ≈ 5.1:1 (WCAG AA ✓) */
+  color: #c0392b;
+  min-height: 1.2em;
+}
+
+/* ---- Submit Button ---- */
+.btn-submit {
+  display: inline-block;
+  padding: 0.5625rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  /* #ffffff on #0057b8 — contrast ratio ≈ 5.9:1 (WCAG AA ✓) */
+  color: #ffffff;
+  background-color: #0057b8;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-submit:hover {
+  background-color: #004494;
+}
+
+.btn-submit:focus {
+  outline: 2px solid #0057b8;
+  outline-offset: 3px;
+}
+
+/* ---- Transaction List Container (scrollable) ---- */
+#transaction-list-container {
+  max-height: 320px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+#transaction-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ---- Transaction List Items ---- */
+#transaction-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+#transaction-list li:last-child {
+  border-bottom: none;
+}
+
+#transaction-list li:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.item-name {
+  flex: 1 1 auto;
+  font-weight: 500;
+  color: #1a1a2e;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item-category {
+  font-size: 0.8125rem;
+  color: #555555;
+  white-space: nowrap;
+}
+
+.item-amount {
+  font-weight: 600;
+  color: #0a6640;
+  white-space: nowrap;
+}
+
+/* ---- Delete Button ---- */
+.delete-btn {
+  flex-shrink: 0;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  /* #ffffff on #c0392b — contrast ratio ≈ 5.1:1 (WCAG AA ✓) */
+  color: #ffffff;
+  background-color: #c0392b;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.delete-btn:hover {
+  background-color: #96281b;
+}
+
+.delete-btn:focus {
+  outline: 2px solid #c0392b;
+  outline-offset: 2px;
+}
+
+/* ---- Empty State ---- */
+.empty-state {
+  padding: 1.5rem;
+  text-align: center;
+  /* #555555 on #ffffff — contrast ratio ≈ 7.4:1 (WCAG AA ✓) */
+  color: #555555;
+  font-style: italic;
+  border-bottom: none !important;
+}
+
+/* ---- Chart Section ---- */
+#chart-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 200px;
+}
+
+#spending-chart {
+  max-width: 360px;
+  width: 100%;
+}
+
+#chart-placeholder {
+  padding: 2rem;
+  text-align: center;
+  color: #555555;
+  font-style: italic;
+}
+
+/* ---- Error Banner ---- */
+.error-banner {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #c0392b;
+  color: #ffffff;
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  max-width: 480px;
+  width: calc(100% - 2rem);
+  text-align: center;
+}
+
+.error-banner[hidden] {
+  display: none;
+}
