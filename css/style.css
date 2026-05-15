@@ -164,14 +164,13 @@ select:focus {
 
 input[aria-invalid="true"],
 select[aria-invalid="true"] {
-  border-color: #c0392b;
+  border-color: var(--color-red);
 }
 
 /* ---- Error Messages ---- */
 .error-msg {
   font-size: 0.8125rem;
-  /* #c0392b on #ffffff — contrast ratio ≈ 5.1:1 (WCAG AA ✓) */
-  color: #c0392b;
+  color: var(--color-red);
   min-height: 1.2em;
 }
 
