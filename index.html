@@ -55,12 +55,15 @@
 
           <div class="form-group">
             <label for="category">Category</label>
-            <select id="category" name="category">
-              <option value="" disabled selected>Select a category</option>
-              <option value="Food">Food</option>
-              <option value="Transport">Transport</option>
-              <option value="Fun">Fun</option>
-            </select>
+            <div class="category-row">
+              <select id="category" name="category">
+                <option value="" disabled selected>Select a category</option>
+                <option value="Food">Food</option>
+                <option value="Transport">Transport</option>
+                <option value="Fun">Fun</option>
+              </select>
+              <button type="button" id="open-add-category" class="btn-add-category" aria-label="Add custom category" title="Add a new category">+ Category</button>
+            </div>
             <span class="error-msg" id="category-error" aria-live="polite"></span>
           </div>
 
@@ -86,10 +89,58 @@
           <p id="chart-placeholder">No spending data available.</p>
         </div>
       </section>
+
+      <!-- Monthly Summary -->
+      <section id="monthly-section" aria-label="Monthly Summary">
+        <div class="monthly-header">
+          <h2>Monthly Summary</h2>
+          <div class="month-nav" role="group" aria-label="Month navigation">
+            <button type="button" id="month-prev" class="btn-month-nav" aria-label="Previous month">&#8592;</button>
+            <span id="month-label" class="month-label" aria-live="polite" aria-atomic="true"></span>
+            <button type="button" id="month-next" class="btn-month-nav" aria-label="Next month">&#8594;</button>
+          </div>
+        </div>
+        <div id="monthly-content">
+          <!-- Rendered by JS -->
+        </div>
+      </section>
     </main>
 
     <!-- Error Banner (hidden by default, shown on storage errors) -->
     <div id="error-banner" class="error-banner" role="alert" aria-live="assertive" hidden></div>
+
+    <!-- Add Custom Category Dialog -->
+    <dialog id="category-dialog" aria-labelledby="dialog-title">
+      <form id="category-form" method="dialog" novalidate>
+        <h2 id="dialog-title">Add Custom Category</h2>
+
+        <div class="form-group">
+          <label for="new-category-name">Category Name</label>
+          <input
+            type="text"
+            id="new-category-name"
+            name="categoryName"
+            maxlength="30"
+            placeholder="e.g. Health"
+            autocomplete="off"
+          />
+          <span class="error-msg" id="new-category-error" aria-live="polite"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="new-category-color">Color</label>
+          <div class="color-picker-row">
+            <input type="color" id="new-category-color" name="categoryColor" value="#a855f7" />
+            <span id="color-preview-label" class="color-preview-label">#a855f7</span>
+          </div>
+        </div>
+
+        <div class="dialog-actions">
+          <button type="button" id="cancel-category" class="btn-secondary">Cancel</button>
+          <button type="button" id="save-category" class="btn-submit">Save Category</button>
+        </div>
+      </form>
+    </dialog>
 
     <!-- Chart.js v4 via CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
