@@ -130,5 +130,100 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
     <!-- Application logic -->
     <script src="js/app.js"></script>
+    <script>
+let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+
+function save() {
+  localStorage.setItem("transactions", JSON.stringify(transactions));
+}
+
+function addTransaction() {
+  const name = document.getElementById("name").value;
+  const amount = parseFloat(document.getElementById("amount").value);
+  const category = document.getElementById("category").value;
+
+  if (!name || !amount) return alert("Isi semua field");
+
+  transactions.push({
+    id: Date.now(),
+    name,
+    amount,
+    category
+  });
+
+  save();
+  render();
+}
+
+function deleteTransaction(id) {
+  transactions = transactions.filter(t => t.id !== id);
+  save();
+  render();
+}
+
+function render() {
+  const list = document.getElementById("list");
+  const balanceEl = document.getElementById("balance");
+
+  list.innerHTML = "";
+
+  let total = 0;
+  let categories = {};
+
+  transactions.forEach(t => {
+    total += t.amount;
+
+    if (!categories[t.category]) categories[t.category] = 0;
+    categories[t.category] += t.amount;
+
+    list.innerHTML += `
+      <div class="transaction-item">
+        <div>
+          <strong>${t.name}</strong><br>
+          $${t.amount} - ${t.category}
+        </div>
+        <button class="delete-btn" onclick="deleteTransaction(${t.id})">X</button>
+      </div>
+    `;
+  });
+
+  balanceEl.innerText = "$" + total.toFixed(2);
+
+  drawChart(categories);
+}
+
+function drawChart(data) {
+  const canvas = document.getElementById("chart");
+  const ctx = canvas.getContext("2d");
+
+  const colors = {
+    Food: "#2ecc71",
+    Transport: "#3498db",
+    Fun: "#e67e22"
+  };
+
+  const total = Object.values(data).reduce((a,b)=>a+b,0);
+
+  let start = 0;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  Object.keys(data).forEach(key => {
+    const slice = (data[key] / total) * 2 * Math.PI;
+
+    ctx.beginPath();
+    ctx.moveTo(150,150);
+    ctx.arc(150,150,100,start,start+slice);
+    ctx.closePath();
+
+    ctx.fillStyle = colors[key] || "#ccc";
+    ctx.fill();
+
+    start += slice;
+  });
+}
+
+render();
+</script>
+
   </body>
 </html>
