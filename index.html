@@ -32,14 +32,17 @@
             <div class="balance" id="balance">$0</div>
           </div> -->
 
-          <div class="card">
+          <!-- <div class="card">
             <h3>Add Transaction</h3>
               <input type="text" id="name" placeholder="Item Name">
               <input type="number" id="amount" placeholder="Amount">
                 <button onclick="addTransaction()">Add Transaction</button>
-          </div>
+          </div> -->
 
           <div class="form-group">
+            <h3>Add Transaction</h3>
+              <input type="text" id="name" placeholder="Item Name">
+              <input type="number" id="amount" placeholder="Amount">
             <label for="category">Category</label>
             <div class="category-row">
               <select id="category" name="category">
@@ -53,7 +56,7 @@
             <span class="error-msg" id="category-error" aria-live="polite"></span>
           </div>
 
-          <button type="submit" class="btn-submit" id="save-transaction">Add Transaction</button>
+          <button type="submit" class="btn-submit" onclick="addTransaction()">Add Transaction</button>
         </form>
       </section>
 
@@ -126,8 +129,6 @@
       </form>
     </dialog>
 
-    <!-- Chart.js v4 via CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
     <!-- Application logic -->
     <script src="js/app.js"></script>
     <script>
