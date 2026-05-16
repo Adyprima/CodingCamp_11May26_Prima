@@ -271,7 +271,7 @@ function initCustomCategories() {
     const rawName = itemNama.value.trim();
     const amount = amountInput.value;
     const existing = loadTransactions();
-    existing.push({ amount });
+    existing.push({ rawName,amount });
     saveTransactions(existing);
     // // 1. Find the parent element where you want the list (e.g., a div)
     const container = document.getElementById("transaction-list-container");
