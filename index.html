@@ -32,14 +32,18 @@
             <div class="balance" id="balance">$0</div>
           </div> -->
 
-          <!-- <div class="card">
-            <h3>Add Transaction</h3>
-              <input type="text" id="name" placeholder="Item Name">
-              <input type="number" id="amount" placeholder="Amount">
-                <button onclick="addTransaction()">Add Transaction</button>
-          </div> -->
+           <h3>Add Transaction</h3>
+    <input type="text" id="name" placeholder="Item Name">
+    <input type="number" id="amount" placeholder="Amount">
+    <select id="category">
+      <option value="Food">Food</option>
+      <option value="Transport">Transport</option>
+      <option value="Fun">Fun</option>
+    </select>
+    <button type="button" id="open-add-category" class="btn-add-category" aria-label="Add custom category" title="Add a new category">+ Category</button>
+    <button onclick="addTransaction()">Add Transaction</button>
 
-          <div class="form-group">
+          <!-- <div class="form-group">
             <h3>Add Transaction</h3>
               <input type="text" id="name" placeholder="Item Name">
               <input type="number" id="amount" placeholder="Amount">
@@ -54,7 +58,7 @@
               <button type="button" id="open-add-category" class="btn-add-category" aria-label="Add custom category" title="Add a new category">+ Category</button>
             </div>
             <span class="error-msg" id="category-error" aria-live="polite"></span>
-          </div>
+          </div> -->
 
           <button type="submit" class="btn-submit" onclick="addTransaction()">Add Transaction</button>
         </form>
