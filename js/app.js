@@ -288,7 +288,7 @@ function initCustomCategories() {
 const myForm = document.getElementById("transaction-form");
 myForm.addEventListener("submit", function (event) {
   // Prevent the page from refreshing (default behavior)
-  event.preventDefault();
+  // event.preventDefault();
   const savedItems =
     JSON.parse(localStorage.getItem("expense_transactions")) || [];
   let totalAmount = 0;
