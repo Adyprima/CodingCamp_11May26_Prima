@@ -271,18 +271,18 @@ function initCustomCategories() {
     const rawName = itemNama.value.trim();
     const amount = amountInput.value;
     const existing = loadTransactions();
-    existing.push({ amount });
+    existing.push({ rawName,amount });
     saveTransactions(existing);
-    // // // 1. Find the parent element where you want the list (e.g., a div)
-    // const container = document.getElementById("transaction-list-container");
-    // // // 2. Create the <ul> element
-    // const ul = document.createElement("ul");
-    // // // 3. Create an <li> element
-    // const li = document.createElement("li");
-    // li.textContent = itemName.value.trim(); // Add text to the li
-    // // // 4. Put the <li> inside the <ul>, then <ul> into the container
-    // ul.appendChild(li);
-    // container.appendChild(ul);
+    // // 1. Find the parent element where you want the list (e.g., a div)
+    const container = document.getElementById("transaction-list-container");
+    // // 2. Create the <ul> element
+    const ul = document.createElement("ul");
+    // // 3. Create an <li> element
+    const li = document.createElement("li");
+    li.textContent = itemName.value.trim(); // Add text to the li
+    // // 4. Put the <li> inside the <ul>, then <ul> into the container
+    ul.appendChild(li);
+    container.appendChild(ul);
   });
 }
 const myForm = document.getElementById("transaction-form");
