@@ -111,6 +111,38 @@
       <h3>Spending by Category</h3>
       <canvas id="chart"></canvas>
     </div>
+    <!-- Add Custom Category Dialog -->
+    <dialog id="category-dialog" aria-labelledby="dialog-title">
+      <form id="category-form" method="dialog" novalidate>
+        <h2 id="dialog-title">Add Custom Category</h2>
+
+        <div class="form-group">
+          <label for="new-category-name">Category Name</label>
+          <input
+            type="text"
+            id="new-category-name"
+            name="categoryName"
+            maxlength="30"
+            placeholder="e.g. Health"
+            autocomplete="off"
+          />
+          <span class="error-msg" id="new-category-error" aria-live="polite"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="new-category-color">Color</label>
+          <div class="color-picker-row">
+            <input type="color" id="new-category-color" name="categoryColor" value="#a855f7" />
+            <span id="color-preview-label" class="color-preview-label">#a855f7</span>
+          </div>
+        </div>
+
+        <div class="dialog-actions">
+          <button type="button" id="cancel-category" class="btn-secondary">Cancel</button>
+          <button type="button" id="save-category" class="btn-submit">Save Category</button>
+        </div>
+      </form>
+    </dialog>
   </div>
 </div>
 
