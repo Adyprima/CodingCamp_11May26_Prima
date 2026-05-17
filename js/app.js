@@ -1,10 +1,14 @@
 // Expense & Budget Visualizer — app.js
 
 // === Constants & Config ===
-const CATEGORY_COLORS = { Food: '#FF6384', Transport: '#36A2EB', Fun: '#FFCE56' };
-const VALID_CATEGORIES = ['Food', 'Transport', 'Fun'];
-const STORAGE_KEY = 'expense_transactions';
-const CUSTOM_CATEGORIES_KEY = 'ebv_custom_categories';
+const CATEGORY_COLORS = {
+  Food: "#FF6384",
+  Transport: "#36A2EB",
+  Fun: "#FFCE56",
+};
+const VALID_CATEGORIES = ["Food", "Transport", "Fun"];
+const STORAGE_KEY = "expense_transactions";
+const CUSTOM_CATEGORIES_KEY = "ebv_custom_categories";
 
 // === Data Model ===
 /**
@@ -59,33 +63,37 @@ function saveTransactions(transactions) {
 // === App Initializer ===
 
 // === Theme Toggle ===
-const THEME_KEY = 'ebv_theme';
+const THEME_KEY = "ebv_theme";
 
 function applyTheme(isDark) {
-  document.body.classList.toggle('dark', isDark);
-  const btn = document.getElementById('theme-toggle');
+  document.body.classList.toggle("dark", isDark);
+  const btn = document.getElementById("theme-toggle");
   if (btn) {
-    btn.textContent = isDark ? '☀️' : '🌙';
-    btn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+    btn.textContent = isDark ? "☀️" : "🌙";
+    btn.setAttribute(
+      "aria-label",
+      isDark ? "Switch to light mode" : "Switch to dark mode",
+    );
   }
 }
 
 function initTheme() {
   const saved = localStorage.getItem(THEME_KEY);
   // Respect saved preference; fall back to OS preference
-  const prefersDark = saved !== null
-    ? saved === 'dark'
-    : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const prefersDark =
+    saved !== null
+      ? saved === "dark"
+      : window.matchMedia("(prefers-color-scheme: dark)").matches;
   applyTheme(prefersDark);
 
-  document.getElementById('theme-toggle').addEventListener('click', () => {
-    const isDark = !document.body.classList.contains('dark');
+  document.getElementById("theme-toggle").addEventListener("click", () => {
+    const isDark = !document.body.classList.contains("dark");
     applyTheme(isDark);
-    localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
+    localStorage.setItem(THEME_KEY, isDark ? "dark" : "light");
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   initCustomCategories();
   initMonthlySummary();
@@ -118,6 +126,17 @@ function saveCustomCategories(categories) {
     // non-critical — silently ignore
   }
 }
+/**
+ * Save custom categories to localStorage.
+ * @param {{ name: string, color: string }[]} categories
+ */
+function saveCustomCategories(categories) {
+  try {
+    localStorage.setItem(CUSTOM_CATEGORIES_KEY, JSON.stringify(categories));
+  } catch (_err) {
+    // non-critical — silently ignore
+  }
+}
 
 /**
  * Register a custom category into the live VALID_CATEGORIES and CATEGORY_COLORS maps.
@@ -136,7 +155,7 @@ function registerCategory(name, color) {
  * preserving the current selection if possible.
  */
 function refreshCategorySelect() {
-  const select = document.getElementById('category');
+  const select = document.getElementById("category");
   if (!select) return;
   const current = select.value;
 
@@ -146,7 +165,7 @@ function refreshCategorySelect() {
   }
 
   VALID_CATEGORIES.forEach((cat) => {
-    const opt = document.createElement('option');
+    const opt = document.createElement("option");
     opt.value = cat;
     opt.textContent = cat;
     select.appendChild(opt);
@@ -167,58 +186,65 @@ function initCustomCategories() {
   saved.forEach(({ name, color }) => registerCategory(name, color));
   refreshCategorySelect();
 
-  const dialog    = document.getElementById('category-dialog');
-  const openBtn   = document.getElementById('open-add-category');
-  const cancelBtn = document.getElementById('cancel-category');
-  const saveBtn   = document.getElementById('save-category');
-  const nameInput = document.getElementById('new-category-name');
-  const colorInput = document.getElementById('new-category-color');
-  const colorLabel = document.getElementById('color-preview-label');
-  const nameError  = document.getElementById('new-category-error');
+  const dialog = document.getElementById("category-dialog");
+  const openBtn = document.getElementById("open-add-category");
+  const cancelBtn = document.getElementById("cancel-category");
+  const saveBtn = document.getElementById("save-category");
+  const saveTR = document.getElementById("save-transaction");
+  const nameInput = document.getElementById("new-category-name");
+  const colorInput = document.getElementById("new-category-color");
+  const colorLabel = document.getElementById("color-preview-label");
+  const nameError = document.getElementById("new-category-error");
+  const itemNama = document.getElementById("item-name");
+  const amountInput = document.getElementById("amount");
 
   // Open dialog
-  openBtn.addEventListener('click', () => {
-    nameInput.value = '';
-    nameError.textContent = '';
-    colorInput.value = '#a855f7';
-    colorLabel.textContent = '#a855f7';
+  openBtn.addEventListener("click", () => {
+    nameInput.value = "";
+    nameError.textContent = "";
+    colorInput.value = "#a855f7";
+    colorLabel.textContent = "#a855f7";
     dialog.showModal();
     nameInput.focus();
   });
 
   // Live color label update
-  colorInput.addEventListener('input', () => {
+  colorInput.addEventListener("input", () => {
     colorLabel.textContent = colorInput.value;
   });
 
   // Cancel
-  cancelBtn.addEventListener('click', () => {
+  cancelBtn.addEventListener("click", () => {
     dialog.close();
   });
 
   // Close on backdrop click
-  dialog.addEventListener('click', (e) => {
+  dialog.addEventListener("click", (e) => {
     if (e.target === dialog) dialog.close();
   });
 
   // Save
-  saveBtn.addEventListener('click', () => {
+  saveBtn.addEventListener("click", () => {
     const rawName = nameInput.value.trim();
-    nameError.textContent = '';
+    nameError.textContent = "";
 
     // Validate
     if (!rawName) {
-      nameError.textContent = 'Category name is required.';
+      nameError.textContent = "Category name is required.";
       nameInput.focus();
       return;
     }
     if (rawName.length > 30) {
-      nameError.textContent = 'Name must be 30 characters or fewer.';
+      nameError.textContent = "Name must be 30 characters or fewer.";
       nameInput.focus();
       return;
     }
-    if (VALID_CATEGORIES.map(c => c.toLowerCase()).includes(rawName.toLowerCase())) {
-      nameError.textContent = 'That category already exists.';
+    if (
+      VALID_CATEGORIES.map((c) => c.toLowerCase()).includes(
+        rawName.toLowerCase(),
+      )
+    ) {
+      nameError.textContent = "That category already exists.";
       nameInput.focus();
       return;
     }
@@ -235,16 +261,53 @@ function initCustomCategories() {
 
     // Update the dropdown and auto-select the new category
     refreshCategorySelect();
-    document.getElementById('category').value = rawName;
+    document.getElementById("category").value = rawName;
 
     dialog.close();
   });
+
+  // Save
+  saveTR.addEventListener("click", () => {
+    const rawName = itemNama.value.trim();
+    const amount = amountInput.value;
+    const existing = loadTransactions();
+    existing.push({ amount });
+    saveTransactions(existing);
+    // // // 1. Find the parent element where you want the list (e.g., a div)
+    // const container = document.getElementById("transaction-list-container");
+    // // // 2. Create the <ul> element
+    // const ul = document.createElement("ul");
+    // // // 3. Create an <li> element
+    // const li = document.createElement("li");
+    // li.textContent = itemName.value.trim(); // Add text to the li
+    // // // 4. Put the <li> inside the <ul>, then <ul> into the container
+    // ul.appendChild(li);
+    // container.appendChild(ul);
+  });
 }
+const myForm = document.getElementById("transaction-form");
+myForm.addEventListener("submit", function (event) {
+  // Prevent the page from refreshing (default behavior)
+  event.preventDefault();
+  const savedItems =
+    JSON.parse(localStorage.getItem("expense_transactions")) || [];
+  let totalAmount = 0;
+  savedItems.forEach((itemText) => {
+    const li = document.createElement("li");
+    const balance = document.getElementById("balance-display");
+    totalAmount += Number(itemText.amount);
+    balance.textContent = `$${totalAmount}.00`;
+  });
+  // Your logic here (e.g., validation or AJAX request)
+});
 
 // === Monthly Summary ===
 
 /** Currently viewed month state: { year: number, month: number (0-based) } */
-let summaryView = { year: new Date().getFullYear(), month: new Date().getMonth() };
+let summaryView = {
+  year: new Date().getFullYear(),
+  month: new Date().getMonth(),
+};
 
 /**
  * Returns the long month+year label, e.g. "May 2026".
@@ -253,7 +316,10 @@ let summaryView = { year: new Date().getFullYear(), month: new Date().getMonth()
  * @returns {string}
  */
 function formatMonthLabel(year, month) {
-  return new Date(year, month, 1).toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+  return new Date(year, month, 1).toLocaleDateString(undefined, {
+    month: "long",
+    year: "numeric",
+  });
 }
 
 /**
@@ -292,18 +358,22 @@ function renderMonthlySummary() {
   const { year, month } = summaryView;
 
   // Update label
-  document.getElementById('month-label').textContent = formatMonthLabel(year, month);
+  document.getElementById("month-label").textContent = formatMonthLabel(
+    year,
+    month,
+  );
 
   // Disable "next" if we're already on the current month
   const now = new Date();
   const isCurrentMonth = year === now.getFullYear() && month === now.getMonth();
-  document.getElementById('month-next').disabled = isCurrentMonth;
+  document.getElementById("month-next").disabled = isCurrentMonth;
 
   const monthTxns = filterByMonth(transactions, year, month);
-  const content = document.getElementById('monthly-content');
+  const content = document.getElementById("monthly-content");
 
   if (monthTxns.length === 0) {
-    content.innerHTML = '<p class="monthly-empty">No transactions recorded for this month.</p>';
+    content.innerHTML =
+      '<p class="monthly-empty">No transactions recorded for this month.</p>';
     return;
   }
 
@@ -331,10 +401,11 @@ function renderMonthlySummary() {
     </div>`;
 
   // Build breakdown table rows
-  const rowsHtml = sortedCats.map(([cat, catTotal]) => {
-    const pct = total > 0 ? (catTotal / total) * 100 : 0;
-    const color = CATEGORY_COLORS[cat] || '#888888';
-    return `
+  const rowsHtml = sortedCats
+    .map(([cat, catTotal]) => {
+      const pct = total > 0 ? (catTotal / total) * 100 : 0;
+      const color = CATEGORY_COLORS[cat] || "#888888";
+      return `
       <tr>
         <td>
           <span class="cat-name">
@@ -350,7 +421,8 @@ function renderMonthlySummary() {
           </div>
         </td>
       </tr>`;
-  }).join('');
+    })
+    .join("");
 
   const tableHtml = `
     <table class="monthly-table" aria-label="Spending breakdown by category for ${formatMonthLabel(year, month)}">
@@ -375,18 +447,18 @@ function renderMonthlySummary() {
  */
 function escapeHtml(str) {
   return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 /**
  * Wire up the month navigator and do the initial render.
  */
 function initMonthlySummary() {
-  document.getElementById('month-prev').addEventListener('click', () => {
+  document.getElementById("month-prev").addEventListener("click", () => {
     summaryView.month -= 1;
     if (summaryView.month < 0) {
       summaryView.month = 11;
@@ -395,10 +467,14 @@ function initMonthlySummary() {
     renderMonthlySummary();
   });
 
-  document.getElementById('month-next').addEventListener('click', () => {
+  document.getElementById("month-next").addEventListener("click", () => {
     const now = new Date();
     // Guard: never navigate past the current month
-    if (summaryView.year === now.getFullYear() && summaryView.month === now.getMonth()) return;
+    if (
+      summaryView.year === now.getFullYear() &&
+      summaryView.month === now.getMonth()
+    )
+      return;
     summaryView.month += 1;
     if (summaryView.month > 11) {
       summaryView.month = 0;
